@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- encoding: utf-8; py-indent-offset: 2 -*-
 
-colorlist=('bgrey', 'blgrey', 'bred', 'blred', 'bgreen', 'blgreen', 'byellow', 'bblue', 'blblue', 'bmagenta', 'blmagenta', 'bcyan', 'blcyan', 'bwhite', 'grey','lgrey', 'red', 'lred', 'green', 'lgreen', 'yellow', 'blue', 'lblue', 'magenta','lmagenta', 'cyan', 'lcyan', 'white')
+colorslist=('bgrey', 'blgrey', 'bred', 'blred', 'bgreen', 'blgreen', 'byellow', 'bblue', 'blblue', 'bmagenta', 'blmagenta', 'bcyan', 'blcyan', 'bwhite', 'grey','lgrey', 'red', 'lred', 'green', 'lgreen', 'yellow', 'blue', 'lblue', 'magenta','lmagenta', 'cyan', 'lcyan', 'white')
 
 bgrey    ='\033[1m\033[30m'
 blgrey   ='\033[1m\033[90m'
