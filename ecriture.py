@@ -27,6 +27,15 @@ ecriture = Tk()
 ecriture.title('Ecriture')
 ecriture.resizable(width=False, height=False)
 
+ecriture.withdraw()
+ecriture.update_idletasks()
+x = (ecriture.winfo_screenwidth() - ecriture.winfo_reqwidth())/2
+y = (ecriture.winfo_screenheight() - ecriture.winfo_reqheight())/2
+
+##ecriture.geometry("+{}+{}".format(int(x), int(y)))
+ecriture.geometry("+10+100")
+ecriture.deiconify()
+
 cv = Canvas()
 
 BoutonAutre = Button(ecriture, text = 'Une autre', command = AfficheRandomImage(liste))
