@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from tkinter import *
-##from PIL import Image
 from glob import iglob
 from random import choice
 import os
@@ -11,29 +10,34 @@ import os
 liste = iglob('pictures/*.png')
 liste = list(liste)
 
+def PickRandom(liste):
+  fichier = choice(liste)
+  return (fichier, os.path.basename(fichier).split('.')[0])
+
+def AfficheRandomImage(liste):
+  (fichier, image) = PickRandom(liste) 
+  print(image)
+
 # pick a random item from the list
-fichier = choice(liste)
-image = os.path.basename(fichier).split('.')[0]
-print(image)
+(fichier, image) = PickRandom(liste)
+print(fichier, image)
 
 # create the image window
-image = Tk()
-image.title('Image')
-image.resizable(width=False, height=False)
+ecriture = Tk()
+ecriture.title('Ecriture')
+ecriture.resizable(width=False, height=False)
 
 cv = Canvas()
+
+BoutonAutre = Button(ecriture, text = 'Une autre', command = AfficheRandomImage(liste))
+BoutonAutre.pack(padx = 5, pady = 5)
+
 pic = PhotoImage(file = fichier)
 width = pic.width()
-height = pic.height() + 200
+height = pic.height()
 
-c = Canvas(image, width = width, height = height)
+c = Canvas(ecriture, width = width, height = height)
 item = c.create_image(width, height, image = pic, anchor = 'se')
 c.pack(side='bottom')
-
-## create the control window
-#command = Tk()
-#command.title('Contrôles')
-#command.resizable(width = False, height = False)
-#command.geometry('{}x{}'.format(1024, 400))
 
 mainloop()
