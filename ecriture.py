@@ -14,9 +14,12 @@ def PickRandom(liste):
   fichier = choice(liste)
   return (fichier, os.path.basename(fichier).split('.')[0])
 
-def AfficheRandomImage(liste):
+def AfficheRandomImage(window, liste):
   (fichier, image) = PickRandom(liste) 
   print(image)
+  window.withdraw()
+  
+  window.deiconify()
 
 # pick a random item from the list
 (fichier, image) = PickRandom(liste)
@@ -38,7 +41,7 @@ ecriture.deiconify()
 
 cv = Canvas()
 
-BoutonAutre = Button(ecriture, text = 'Une autre', command = AfficheRandomImage(liste))
+BoutonAutre = Button(ecriture, text = 'Une autre', command = AfficheRandomImage(ecriture, liste))
 BoutonAutre.pack(padx = 5, pady = 5)
 
 pic = PhotoImage(file = fichier)
