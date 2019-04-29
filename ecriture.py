@@ -1,55 +1,62 @@
 #! /usr/bin/env python3
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8; py-indent-offset: 2 -*-
 
 from tkinter import *
-from glob import iglob
-from random import choice
-import os
+import glob
+import random
+from PIL import Image, ImageTk
+import sys
 
-# select a random file:
-liste = iglob('pictures/*.png')
-liste = list(liste)
+# quelques initialisations
+images = []
+gImage = ''
 
-def PickRandom(liste):
-  fichier = choice(liste)
-  return (fichier, os.path.basename(fichier).split('.')[0])
+# charge la liste d'images disponibles
+for file in glob.glob('pictures/*.jpeg'):
+  images.append(file.split('/')[1].split('.')[0])
 
-def AfficheRandomImage(window, liste):
-  (fichier, image) = PickRandom(liste) 
-  print(image)
-  window.withdraw()
-  
-  window.deiconify()
+# enregistre le nombre d'images trouvées, pour afficher le taux de réussite à la fin du jeu
+nbpic = len(images)
 
-# pick a random item from the list
-(fichier, image) = PickRandom(liste)
-print(fichier, image)
+# fonction pour en choisir une au hasard
+def auhasard(tableau):
+  if len(tableau) != 0:
+    tmp = random.choice(tableau)
+    tableau.remove(tmp)
+    return tmp
+  else:
+    return None
 
-# create the image window
-ecriture = Tk()
-ecriture.title('Ecriture')
-ecriture.resizable(width=False, height=False)
+def Quitter(window):
+  sys.exit(0)
 
-ecriture.withdraw()
-ecriture.update_idletasks()
-x = (ecriture.winfo_screenwidth() - ecriture.winfo_reqwidth())/2
-y = (ecriture.winfo_screenheight() - ecriture.winfo_reqheight())/2
+def check_content(event, window):
+  if event.get() == gImage:
+    print("Bravo!")
+    # go to next picture
+    window.destroy()
+  else:
+    print("Failed!")
 
-##ecriture.geometry("+{}+{}".format(int(x), int(y)))
-ecriture.geometry("+10+100")
-ecriture.deiconify()
+def Affiche():
+  fenetre = Tk()
+  fenetre.title('Ecriture')
+  fenetre.resizable(0,0) # prevent <<maximize>> window
+  im  = Image.open('pictures/{}.jpeg'.format(gImage))
+  img = ImageTk.PhotoImage(im)
+  cv = Canvas(fenetre, width=im.width+10, height=im.height+10)
+  cv.pack(padx = 10, pady = 10)
+  cv.create_image(0, 0, image = img, anchor = 'nw')
+  t = Label(fenetre, text = 'Que représente cette image ?')
+  t.pack()
+  e = Entry(fenetre)
+  e.pack()
+  e.bind('<Return>', (lambda _: check_content(e, fenetre)))
+  e.focus_set()
+  b = Button(fenetre, text="Quitter", command = lambda: Quitter(fenetre))
+  b.pack()
+  fenetre.mainloop()
 
-cv = Canvas()
-
-BoutonAutre = Button(ecriture, text = 'Une autre', command = AfficheRandomImage(ecriture, liste))
-BoutonAutre.pack(padx = 5, pady = 5)
-
-pic = PhotoImage(file = fichier)
-width = pic.width()
-height = pic.height()
-
-c = Canvas(ecriture, width = width, height = height)
-item = c.create_image(width, height, image = pic, anchor = 'se')
-c.pack(side='bottom')
-
-mainloop()
+while (len(images) > 0):
+  gImage = auhasard(images)
+  Affiche()
