@@ -19,9 +19,15 @@ for i in range(2, int(math.sqrt(val))+1):
       delta = val - last
       if delta <= minimum:
         minimum = delta
-        vali = i
-        valj = j-1
       break
+    vali = i
+    valj = j
     last = i**j
 
-print("The exposant {}^{} is the closer to {}".format(vali, valj, val))
+try:
+  vali
+  valj
+except:
+  print("it looks like your number is too small")
+else:
+  print("The exposant {}^{} ({}) is the closer to {}".format(vali, valj, vali**valj, val))
